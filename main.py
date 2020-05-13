@@ -7,7 +7,7 @@ import argparse
 
 TOKEN_FOR_BITLINK=os.getenv("BITLINK_TOKEN")
 
-def createParser():
+def create_parser():
     parser = argparse.ArgumentParser(
         prog='bitlink',
         description='''Программа делает ссылки короткими, либо указывает количество переходов по короткой ссылке''',
@@ -36,7 +36,7 @@ def count_clicks(token, link):
 
 
 if __name__ == '__main__':
-    parser = createParser()
+    parser = create_parser()
     namespace = parser.parse_args(sys.argv[1:])
     url=namespace.link
     if url.startswith("bit.ly/"):
