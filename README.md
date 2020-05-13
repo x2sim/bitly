@@ -1,58 +1,45 @@
-import sys
-import requests
-import os
-from dotenv import load_dotenv
-load_dotenv()
-import argparse
+i#Обрезка ссылок с помощью Битли
+####Приложение делает вашу ссылку короткой, либо указывает число переходов по ней
 
-TOKEN_FOR_BITLINK=os.getenv("USER_TOKEN")
+**Как установить**
 
-def createParser():
-    parser = argparse.ArgumentParser(
-        prog='bitlink',
-        description='''Программа делает ссылки короткими, либо указывает количество переходов по короткой ссылке''',
-        epilog='''(c) Александр Дубков 2020.'''
-    )
-    parser.add_argument('--link', '-l', help='Ссылка')
-    return parser
+* Для работы приложения необходимо получить ключ (выдается при регистрации на сайте ![bitly.com](https://app.bitly.com)). 
+Ключ представляет из себя длинную последовательность из букв и цифр. Его нужно поместить в файл .env проекта вместо 
+текста:"Your_token". Ключ должен быть заключен в кавычки
 
-def shorten_link(token, link):
-    url='https://api-ssl.bitly.com/v4/shorten'
-    json={"long_url": link}
-    headers={"Authorization": "Bearer {}".format(token)}
-    response=requests.post(url,json=json,headers=headers)
-    response.raise_for_status()
-    short_link=response.json()["id"]    
-    return short_link
+* Python3 должен быть уже установлен. 
 
-def count_clicks(token, link):
-    url='https://api-ssl.bitly.com/v4/bitlinks/{}/clicks/summary'.format(link)
-    headers={"Authorization": "Bearer {}".format(token)}
-    payload={'units':'-1'}
-    response = requests.get(url, headers=headers,params=payload)
-    response.raise_for_status()    
-    clicks_count=response.json()['total_clicks']    
-    return clicks_count
+* Затем в командной строке используйте pip (или pip3, есть конфликт с Python2) 
+для установки зависимостей: pip install -r requirements.txt
 
+**Как пользоваться**
 
-if __name__ == '__main__':
-    parser = createParser()
-    namespace = parser.parse_args(sys.argv[1:])
-    url=namespace.link
-    if url.startswith("bit.ly/"):
-        try:
-            total_clicks = count_clicks(TOKEN_FOR_BITLINK,url)
-        except requests.exceptions.HTTPError:
-            print("Ссылка не корректная")
-        else:
-            print("По вашей ссылке прошли {} раз(а)".format(total_clicks))
-    else:
-        try:
-            short_link = shorten_link(TOKEN_FOR_BITLINK,url)       
-        except requests.exceptions.HTTPError:
-            print("Ссылка не корректная")
-        else:
-            print("Короткая ссылка: {}".format(short_link))
+* Запуск программы производится командой main.py -l you_link, где вместо you_link вам необходимо указать свою ссылку.
+Ключ можно указать двумя способами: коротким '-l'  и полным '--link'.
+
+* В том случае, если вводимая ссылка уже ранее была получена, т.е. является короткой, программа выведет информацию о 
+количестве переходов по ней. 
+
+**Примеры команд запуска**
+
+1 *Запуск с коротким ключом длинной ссылки:* 
+```python
+main.py -l https://zen.yandex.ru/media/celnet/kak-rabotaet-mimo-v-4g-5dc2a9699c944660a553509e?utm_source=serp
+```
+*Результат:* 
+```python
+Короткая ссылка: bit.ly/2YVqpFn
+```
+
+2 *Запуск с длинным ключом короткой ссылки:* 
+```python
+main.py --link  bit.ly/2YVqpFn
+```
+*Результат:* 
+```python
+По вашей ссылке прошли 1 раз(а)
+``` 
 
 
-
+**Цель проекта**
+>Код написан в образовательных целях на онлайн-курсе для веб-разработчиков dvmn.org.
