@@ -24,20 +24,20 @@
 **Примеры команд запуска**
 
 1 *Запуск с коротким ключом длинной ссылки:* 
-```python
+```html
 main.py -l https://zen.yandex.ru/media/celnet/kak-rabotaet-mimo-v-4g-5dc2a9699c944660a553509e?utm_source=serp
 ```
 *Результат:* 
-```python
+```html
 Короткая ссылка: bit.ly/2YVqpFn
 ```
 
 2 *Запуск с длинным ключом короткой ссылки:* 
-```python
+```html
 main.py --link  bit.ly/2YVqpFn
 ```
 *Результат:* 
-```python
+```html
 По вашей ссылке прошли 1 раз(а)
 ``` 
 
