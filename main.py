@@ -1,12 +1,8 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import sys
 import requests
 import os
 from dotenv import load_dotenv
 import argparse
-
-TOKEN_FOR_BITLINK = os.getenv('BITLINK_TOKEN')
 
 
 def create_parser():
@@ -39,8 +35,9 @@ def count_clicks(token, link):
 
 if __name__ == '__main__':
     load_dotenv()
+    TOKEN_FOR_BITLINK = os.getenv('BITLINK_TOKEN')
     parser = create_parser()
-    arguments_of_argparse = parser.parse_args(sys.argv[1:])
+    arguments_of_argparse = parser.parse_args()
     url = arguments_of_argparse.link
     if url.startswith('bit.ly/'):
         try:
