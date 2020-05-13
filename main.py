@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 import argparse
 
-TOKEN_FOR_BITLINK=os.getenv("USER_TOKEN")
+TOKEN_FOR_BITLINK=os.getenv("BITLINK_TOKEN")
 
 def createParser():
     parser = argparse.ArgumentParser(
