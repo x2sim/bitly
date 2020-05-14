@@ -35,20 +35,20 @@ def count_clicks(token, link):
 
 if __name__ == '__main__':
     load_dotenv()
-    TOKEN_FOR_BITLINK = os.getenv('BITLINK_TOKEN')
+    token_for_bitlink = os.getenv('BITLINK_TOKEN')
     parser = create_parser()
     arguments_of_argparse = parser.parse_args()
     url = arguments_of_argparse.link
     if url.startswith('bit.ly/'):
         try:
-            total_clicks = count_clicks(TOKEN_FOR_BITLINK, url)
+            total_clicks = count_clicks(token_for_bitlink, url)
         except requests.exceptions.HTTPError:
             print("Ссылка не корректная")
         else:
             print("По вашей ссылке прошли {} раз(а)".format(total_clicks))
     else:
         try:
-            short_link = shorten_link(TOKEN_FOR_BITLINK, url)       
+            short_link = shorten_link(token_for_bitlink, url)       
         except requests.exceptions.HTTPError:
             print("Ссылка не корректная")
         else:
